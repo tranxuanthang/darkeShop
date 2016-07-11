@@ -1,0 +1,22 @@
+.button.button-small,
+button.button-small,
+input[type="submit"].button-small,
+input[type="reset"].button-small,
+input[type="button"].button-small {
+  height: 22px;
+  padding: 0 6px;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 19px;
+  letter-spacing: .1rem;
+}
+
+.listing{
+    padding: 3px 3px 3px 6px;
+}
+.listing a{
+    text-decoration: none;
+}
+.listing:hover {
+    background-color: #eee;
+}
