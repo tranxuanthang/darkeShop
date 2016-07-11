@@ -133,7 +133,7 @@ if ($result->num_rows == 0 and !empty($name) and !empty($region)) {
         echo 'failed: '.$titleID.' '.$name.'<br>';
         $added++;
         if ($added>=11){
-            echo 'inc/footer.php';
+            include 'inc/footer.php';
             exit;
         }
     
@@ -142,5 +142,5 @@ if ($result->num_rows == 0 and !empty($name) and !empty($region)) {
 }
 
 echo 'DONE';
-echo 'inc/footer.php';
+include 'inc/footer.php';
 ?> 
