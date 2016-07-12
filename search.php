@@ -16,7 +16,7 @@ echo search($tukhoa);
         exit;
     }
 include 'inc/header.php';
-$sql = "SELECT id,titleID,name,gdesc,region FROM `3dsgames` WHERE MATCH (`name`,`gdesc`) AGAINST (CONVERT('$keyword' USING utf8)) AND (type='eshop' OR type='dlc' OR type='update' OR type='dsiw')";
+$sql = "SELECT id FROM `3dsgames` WHERE MATCH (`name`,`gdesc`) AGAINST (CONVERT('$keyword' USING utf8)) AND (type='eshop' OR type='dlc' OR type='update' OR type='dsiw')";
 $list = $mysqli->query($sql);
 
 $tongsodong = $list->num_rows;
@@ -30,17 +30,17 @@ if(isset($_GET["page"])){
 }
 $x = ($p-1) * $sonews;
 
-$sql = "SELECT id,name,gdesc,region,type,imgur_iconURL FROM `3dsgames` WHERE MATCH (`name`,`gdesc`) AGAINST (CONVERT('$keyword' USING utf8)) AND (type='eshop' OR type='dlc' OR type='update' OR type='dsiw') limit $x,$sonews";
+$sql = "SELECT id,name,gdesc,region,type,imgur_iconURL, size FROM `3dsgames` WHERE MATCH (`name`,`gdesc`) AGAINST (CONVERT('$keyword' USING utf8)) AND (type='eshop' OR type='dlc' OR type='update' OR type='dsiw') limit $x,$sonews";
 $result = $mysqli->query($sql);
 echo search($tukhoa);
 if ($result->num_rows > 0) {
     // output data of each row
-    echo '<div class="row"><div class="nine columns">';
+    echo '<div class="row"><div class="nine columns"><div id="grid" data-columns>';
     while($row = $result->fetch_assoc()) {
         if(!empty($row['imgur_iconURL']) && $row['imgur_iconURL']!='none')$imgur_iconURL = $row['imgur_iconURL']; else $imgur_iconURL = 'img/questionmark.png';
-        echo '<div class="row listing"><div class="eight columns"><span style="margin-right: 4px;"><img style="vertical-align:top" src="'.$imgur_iconURL.'" width="32" alt="'.$row['name'].'" /></span><a href="title.php?id='.$row['id'].'">'.$row['name'].'</a></div><div class="two columns"><span style="color: green;">['.$row['region'].']</span></div><div class="two columns"> <span style="color: blue;">['.$row['type'].']</span></div></div>';
+        echo '<div class="card"><div class="name"><span style="margin-right: 4px;"><img style="vertical-align:middle" src="'.$imgur_iconURL.'" width="32" alt="'.$row['name'].'" /></span><a href="title.php?id='.$row['id'].'">'.$row['name'].'</a></div><div class="info"><span>'.$row['region'].'</span> · <span>'.$row['type'].'</span> · <span>'.kichthuoc($row['size']).'</span></div></div>';
     }
-    echo '</div><div class="three columns">';
+    echo '</div></div><div class="three columns">';
     if($p > 1){
         $page = $p - 1;
         $prev = '<a class="button button-small button-primary" href="?keyword='.$tukhoa.'&page='.$page.'">« Prev</a> ';
@@ -65,8 +65,7 @@ if ($result->num_rows > 0) {
 } else {
     include 'inc/header.php';
     echo search();
-    include 'inc/footer.php';
 }
-
+include 'inc/footer.php';
 $mysqli->close();
 ?>

@@ -11,12 +11,63 @@ input[type="button"].button-small {
   letter-spacing: .1rem;
 }
 
-.listing{
-    padding: 3px 3px 3px 6px;
+.card{
+    padding: 6px 6px 6px 6px;
+    margin: 6px 6px 6px 0px;
+    border:1px solid #2A3032;
+    background-color: #2A3032;
+    border-radius: 6px;
 }
-.listing a{
+.scrsht{
+    padding: 6px 6px 6px 6px;
+    margin: 6px 6px 6px 0px;
+    border:1px solid #2A3032;
+    background-color: #2A3032;
+    border-radius: 6px;
+}
+.card a{
     text-decoration: none;
 }
-.listing:hover {
-    background-color: #eee;
+.card:hover {
+    background-color: #272d2f;
+}
+
+.info {
+    font-size: small;
+    color: gray;
+}
+#grid[data-columns]::before {
+	content: '3 .cardcol.size-1of3';
+}
+
+@media screen and (max-width: 480px){
+	#grid[data-columns]::before {
+		content: '1 .cardcol.size-1of1';
+	}
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+	#grid[data-columns]::before {
+		content: '2 .cardcol.size-1of2';
+	}
+}
+@media screen and (min-width: 769px) {
+	#grid[data-columns]::before {
+		content: '3 .cardcol.size-1of3';
+	}
+}
+
+.cardcol { float: left; }
+.size-1of1 { width: 100%; }
+.size-1of2 { width: 50%; }
+.size-1of3 { width: 33.333%; }
+
+.navmenu {
+    margin: 6px; padding: 6px; font-weight:bold; font-size:small;
+}
+ .navactive {
+    background-color: #272d2f;
+}
+.navmenu a{
+    text-decoration:none;
 }

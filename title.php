@@ -66,7 +66,7 @@ if ($result->num_rows > 0) {
 
     echo '<h4>screenshots:</h4>';
     if($title['scrcount']==-1 || $title['scrcount']==0){echo '<p>none</p>';} else {
-        echo '<p><div class="row">';
+        echo '<div id="grid" data-columns>';
         $sql = "SELECT * FROM screenshots WHERE `idgame`='".$title['titleID']."'";
         $scrresult = $mysqli->query($sql);
         while($scrsht = $scrresult->fetch_assoc()) {
@@ -78,17 +78,17 @@ if ($result->num_rows > 0) {
                 if(empty($urltop) || empty($urlbottom) || $urltop=='none' || $urlbottom=='none') {
                     echo '<p>none</p>';
                 } else {
-                    echo '<div class="one-third column" style="text-align: center;"><img src="'.$urltop.'" alt="'.$title['name'].'" style="max-width: 100%;height: auto;" /><br><img src="'.$urlbottom.'" alt="'.$title['name'].'" style="max-width: 80%;height: auto;" /></div>';
+                    echo '<div class="scrsht" style="text-align: center;"><img src="'.$urltop.'" alt="'.$title['name'].'" style="max-width: 100%;height: auto;" /><br><img src="'.$urlbottom.'" alt="'.$title['name'].'" style="max-width: 80%;height: auto;" /></div>';
                 }
             }elseif ( $scrsht['imgur_urltop']=='none' || $scrsht['imgur_urlbottom']=='none'){
                 echo '<p>none</p>';
             }else{
-                echo '<div class="one-third column" style="text-align: center;"><img src="'.$scrsht['imgur_urltop'].'" alt="'.$title['name'].'" style="max-width: 100%;height: auto;" /><br><img src="'.$scrsht['imgur_urlbottom'].'" alt="'.$title['name'].'" style="max-width: 80%;height: auto;" /></div>';
+                echo '<div class="scrsht" style="text-align: center;"><img src="'.$scrsht['imgur_urltop'].'" alt="'.$title['name'].'" style="max-width: 100%;height: auto;" /><br><img src="'.$scrsht['imgur_urlbottom'].'" alt="'.$title['name'].'" style="max-width: 80%;height: auto;" /></div>';
             }
             
             
         }
-        echo '</div></p>';
+        echo '</div>';
     }
     
     $count = $title['count'];

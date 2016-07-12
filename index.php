@@ -15,28 +15,43 @@ $x = ($p-1) * $sonews;
 
 include 'inc/header.php';
 
-$sql = "SELECT id, name, titleID, region, type, imgur_iconURL FROM 3dsgames WHERE type='eshop' OR type='dlc' OR type='update' OR type='dsiw' ORDER BY name ASC limit $x,$sonews";
+switch ($sort) {
+    case 0:
+        $sql = "SELECT id, name, titleID, region, type, imgur_iconURL,size FROM 3dsgames WHERE type='eshop' OR type='dlc' OR type='update' OR type='dsiw' ORDER BY name ASC limit $x,$sonews";
+        break;
+    case 1:
+        $sql = "SELECT id, name, titleID, region, type, imgur_iconURL,size FROM 3dsgames WHERE type='eshop' OR type='dlc' OR type='update' OR type='dsiw' ORDER BY time DESC limit $x,$sonews";
+        break;
+    case 2:
+        $sql = "SELECT id, name, titleID, region, type, imgur_iconURL,size FROM 3dsgames WHERE type='eshop' OR type='dlc' OR type='update' OR type='dsiw' ORDER BY count DESC limit $x,$sonews";
+        break;
+    default;
+        $sql = "SELECT id, name, titleID, region, type, imgur_iconURL,size FROM 3dsgames WHERE type='eshop' OR type='dlc' OR type='update' OR type='dsiw' ORDER BY name ASC limit $x,$sonews";
+    break;
+}
+
+//$sql = "SELECT id, name, titleID, region, type, imgur_iconURL,size FROM 3dsgames WHERE type='eshop' OR type='dlc' OR type='update' OR type='dsiw' ORDER BY name ASC limit $x,$sonews";
 $result = $mysqli->query($sql);
 
 if ($result->num_rows > 0) {
     echo search();
     // output data of each row
-    echo '<div class="row"><div class="nine columns">';
+    echo '<div class="row"><div class="nine columns"><div id="grid" data-columns>';
     while($row = $result->fetch_assoc()) {
         if(!empty($row['imgur_iconURL']) && $row['imgur_iconURL']!='none')$imgur_iconURL = $row['imgur_iconURL']; else $imgur_iconURL = 'img/questionmark.png';
-        echo '<div class="row listing"><div class="eight columns"><span style="margin-right: 4px;"><img style="vertical-align:top" src="'.$imgur_iconURL.'" width="32" alt="'.$row['name'].'" /></span><a href="title.php?id='.$row['id'].'">'.$row['name'].'</a></div><div class="two columns"> <span style="color: green;">['.$row['region'].']</span></div><div class="two columns"> <span style="color: blue;">['.$row['type'].']</span></div></div>';
+        echo '<div class="card"><div class="name"><span style="margin-right: 4px;"><img style="vertical-align:middle" src="'.$imgur_iconURL.'" width="32" alt="'.$row['name'].'" /></span><a href="title.php?id='.$row['id'].'">'.$row['name'].'</a></div><div class="info"><span>'.$row['region'].'</span> · <span>'.$row['type'].'</span> · <span>'.kichthuoc($row['size']).'</span></div></div>';
     }
-    echo '</div><div class="three columns">';
+    echo '</div></div><div class="three columns">';
     
     if($p > 1){
         $page = $p - 1;
-        $prev = '<a class="button button-small button-primary" href="?page='.$page.'">« Prev</a> ';
+        $prev = '<a class="button button-small button-primary" href="?sort='.$sort.'&page='.$page.'">« Prev</a> ';
     }else{
         $prev  = '<button class="button button-small" disabled>« Prev</button> ';
     }
     if ($p < $tongsotrang){
         $page = $p + 1;
-        $next = ' <a class="button button-small button-primary" href="?page='.$page.'">Next »</a> ';   
+        $next = ' <a class="button button-small button-primary" href="?sort='.$sort.'&page='.$page.'">Next »</a> ';   
     } else{
         $next = ' <button class="button button-small" disabled>Next »</button>';
     }
@@ -44,7 +59,7 @@ if ($result->num_rows > 0) {
     if($_GET['page'] < 1 || $_GET['page'] == '') $_GET['page'] = 1;
     echo "<div class=\"menu\">$prev $next<br />";
     
-    chiatrang($tongsotrang,$p,'?page=');
+    chiatrang($tongsotrang,$p,'?sort='.$sort.'&page=');
     echo '<p>'.$tongsodong.' titles in db<br>';
     $timequery = "SELECT time FROM 3dsgames ORDER BY time DESC LIMIT 1";
     $timequeryexecute = $mysqli->query($timequery);

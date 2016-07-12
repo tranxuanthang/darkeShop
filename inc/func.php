@@ -1,5 +1,4 @@
 <?php
-include 'config.php';
 function search($default_value=null){
     return '
     <form method="get" action="search.php">
@@ -164,8 +163,9 @@ function XMLtoArray($XML)
 }
 
 function getimgurimg($imgurl){
+    include 'config.php';
     $url = 'https://api.imgur.com/3/image.json';
-    $headers = array("Authorization: Client-ID $imgur_client_id");
+    $headers = array("Authorization: Client-ID ".$imgur_client_id);
     $pvars  = array(
     'image' => $imgurl,'type' => 'url'
     );
