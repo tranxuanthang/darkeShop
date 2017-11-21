@@ -8,7 +8,7 @@ $options = array(
     CURLOPT_RETURNTRANSFER => 1,
     CURLOPT_VERBOSE => 1);
 curl_setopt_array($curl, $options);
-$url = 'https://3ds.titlekeys.com/json';
+$url = 'INSERT_MYSTERIOUS_JSON_URL_HERE';
 curl_setopt($curl, CURLOPT_URL, $url);
 $jsonlist = curl_exec($curl);
 curl_close($curl);
